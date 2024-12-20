@@ -1,0 +1,32 @@
+
+
+.formInner {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formInner > div {
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+}
+.input:focus {
+    outline: 1px solid rgba(72, 128, 255, 1);
+}
+
+.addProductButton {
+    border-radius: 12px;
+    font-size: 15px;
+    background-color: rgba(72, 128, 255, 1);
+    color: white;
+    width: 50%;
+    margin-top: 20px;
+  
+    transition: all 0.3s ease;
+  }
+  .addProductButton:hover {
+    background-color: rgb(41, 75, 154);
+  }

@@ -1,0 +1,18 @@
+.productsCatalogSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.productCardsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.sortFilterContainer {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}

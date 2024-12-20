@@ -1,0 +1,22 @@
+.searchContainer {
+  position: relative;
+  width: 38%;
+}
+
+.loupeicon {
+  position: absolute;
+  top: 11px;
+  left: 13px
+}
+
+.searchInput {
+  border: 0.6px solid rgba(213, 213, 213, 1);
+  width: 100%;
+  height: 38px;
+  border-radius: 19px;
+  background-color: rgba(245, 246, 250, 1);
+  padding-left: 45px;
+}
+.searchInput:focus {
+    outline: 0.6px solid rgb(62, 62, 62);
+}

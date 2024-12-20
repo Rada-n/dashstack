@@ -1,0 +1,12 @@
+.statusButton {
+  width: 93px;
+  height: 27px;
+  gap: 0px;
+  border-radius: 4.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16.37px;
+}

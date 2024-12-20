@@ -1,0 +1,28 @@
+.mainWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(72, 128, 255, 1);
+    background-image: url('C:\Users\HP\Desktop\react\seventhTask\src\assets\sign\Shape.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.mainContainer {
+    width: 630px;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    max-height: 95vh;
+    box-sizing: border-box;
+    background-color: white;
+    border: 0.3px solid rgba(185, 185, 185, 1);
+    border-radius: 24px;
+}
+
+.mainContainer p {
+    margin: 0;
+}

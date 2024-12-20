@@ -1,0 +1,34 @@
+.navBtn {
+  width: 192px;
+  height: 50px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: none;
+  padding: 0;
+
+  transition: all 0.2s ease;
+}
+
+.navBtn.disable {
+  background-color: white;
+  color: rgba(32, 34, 36, 1);
+}
+
+.navBtn.active {
+  background-color: rgba(72, 128, 255, 1);
+  color: white;
+}
+
+.navBtnClosed {
+  background-color: white
+}
+
+.iconBtn {
+  fill: white;
+  margin-left: 16px;
+}
+.iconBtnClosed {
+  margin: 0;
+}

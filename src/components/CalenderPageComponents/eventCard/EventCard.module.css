@@ -1,0 +1,34 @@
+.cardContainer {
+  border-top: 0.6px solid rgba(224, 224, 224, 1);
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.cardInner {
+  padding: 24px;
+  display: flex;
+  gap: 12px;
+}
+
+.image {
+  width: 38px;
+  height: 38px;
+  border-radius: 100%;
+  margin-bottom: auto;
+}
+
+.title {
+  font-size: 14px;
+  line-height: 26px;
+}
+
+.eventInfo > p {
+  font-size: 12px;
+  line-height: 26px;
+  opacity: 70%;
+}
+
+.address {
+  margin: 0;
+}

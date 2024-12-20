@@ -1,0 +1,58 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Apple Watch Series 4",
+      "image": "AppleWatch.jpg",
+      "category": "Watch",
+      "price": 120,
+      "rating": 4,
+      "reviews": 131
+    },
+    {
+      "id": "2",
+      "name": "Samsung Galaxy Watch 5",
+      "image": "SamsungWatch.jpg",
+      "category": "Watch",
+      "price": 150,
+      "rating": 2.4,
+      "reviews": 257
+    },
+    {
+      "id": "3",
+      "name": "MacBook Pro",
+      "image": "MacBook.jpg",
+      "category": "Laptop",
+      "price": "250",
+      "rating": 5,
+      "reviews": 185
+    },
+    {
+      "id": "4",
+      "name": "Aser Aspire",
+      "image": "AserAspire.jpg",
+      "category": "Laptop",
+      "price": 200,
+      "rating": 4.2,
+      "reviews": 312
+    },
+    {
+      "id": "5",
+      "name": "iPhone 14 Plus",
+      "image": "iPhone.jpg",
+      "category": "Smartphone",
+      "price": 100,
+      "rating": 4,
+      "reviews": 201
+    },
+    {
+      "id": "6",
+      "name": "Xiaomi 12",
+      "image": "Xiaomi.jpg",
+      "category": "Smartphone",
+      "price": 130,
+      "rating": "3.3",
+      "reviews": 289
+    }
+  ]
+}

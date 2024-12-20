@@ -1,0 +1,66 @@
+.todoContainer {
+  min-height: 93px;
+  border-radius: 12px;
+  border: 0.6px solid rgba(213, 213, 213, 1);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px;
+  box-sizing: border-box;
+
+  transition: all 0.2s ease;
+}
+.todoContainer.selected {
+  background-color: rgba(72, 128, 255, 1);
+  color: white;
+}
+
+.contentContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.checkbox {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+}
+
+.task {
+    max-width: 500px;
+}
+
+.deleteButton {
+  width: 30px;
+  height: 30px;
+  border: 0.4px solid rgba(136, 136, 136, 1);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteCheckedButton {
+  width: 65px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(108, 153, 255, 1);
+  border: 0.8px solid rgba(200, 200, 200, 0.3487);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: all 0.1s ease;
+}
+.deleteCheckedButton:hover {
+    background: rgb(42, 71, 138);
+    border: none;
+}

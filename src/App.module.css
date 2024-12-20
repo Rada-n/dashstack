@@ -1,0 +1,9 @@
+.mainContainer {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.mainContentContainer {
+    flex-grow: 2;
+}

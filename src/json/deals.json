@@ -1,0 +1,50 @@
+{
+    "deals": [
+     {
+      "product_name": "Apple Watch",
+      "location": "Warehouse A",
+      "date": "2024-01-01",
+      "time": "12:00",
+      "piece": 5,
+      "amount": 500,
+      "status": "Delivered"
+     },
+     {
+      "product_name": "iPhone 14",
+      "location": "Warehouse B",
+      "date": "2024-01-05",
+      "time": "15:30",
+      "piece": 10,
+      "amount": 2000,
+      "status": "Pending"
+     },
+     {
+      "product_name": "MacBook Pro",
+      "location": "Warehouse A",
+      "date": "2024-01-10",
+      "time": "09:45",
+      "piece": 3,
+      "amount": 3600,
+      "status": "Shipped"
+     },
+     {
+      "product_name": "iPad Air",
+      "location": "Warehouse C",
+      "date": "2024-01-15",
+      "time": "11:15",
+      "piece": 7,
+      "amount": 1050,
+      "status": "Delivered"
+     },
+     {
+      "product_name": "AirPods Pro",
+      "location": "Warehouse B",
+      "date": "2024-01-20",
+      "time": "14:00",
+      "piece": 20,
+      "amount": 1600,
+      "status": "Shipped"
+     }
+    ]
+   }
+   

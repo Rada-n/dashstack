@@ -1,0 +1,17 @@
+.buttonSubmit {
+  width: 418px;
+  height: 45px;
+  border-radius: 8px;
+  background: rgba(72, 128, 255, 0.9);
+  color: white;
+  font-size: 18px;
+  line-height: 27.28px;
+  letter-spacing: -0.07142855226993561px;
+  margin-top: 10px;
+
+  transition: all 0.2s ease;
+}
+
+.buttonSubmit:hover {
+    background: rgba(49, 87, 174, 0.9);
+}

@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+   font-family: "Nunito Sans";
+}
+
+body {
+    margin: 0;
+    background-color: rgba(245, 246, 250, 1);
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    background-color:rgba(240, 248, 255, 0);
+}
+
+.link {
+    color: black;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+input:focus {
+    outline: 1px solid rgba(72, 128, 255, 1);
+}
+
+.calenderStyleIcon {
+    fill: white;
+}
+
+.react-datepicker__month-container {
+    width: 100%;
+    border: none;
+}
+
+.react-datepicker {
+    width: 100%;
+    border: none;
+}
+
+.react-datepicker__day-names {
+    display: flex;
+    justify-content: space-between;
+}
+
+.react-datepicker__week {
+    display: flex;
+    justify-content: space-between;
+}
+
+.react-datepicker__header {
+    background-color: white;
+}
+

@@ -1,0 +1,56 @@
+.ordersTable {
+  width: 100%;
+  background-color: white;
+  max-height: 733px;
+  padding: 15px 31px;
+  box-sizing: border-box;
+  border: 0.6px solid rgba(213, 213, 213, 1);
+  border-radius: 18px;
+}
+.ordersTableRows {
+  border-top: 1px solid rgb(200, 200, 200);
+  height: 76px;
+}
+.ordersTableRows > td {
+  font-size: 14px;
+  line-height: 19.1px;
+}
+.ordersTableRows > td:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 76px;
+}
+
+.columntitle {
+  text-align: start;
+  font-size: 14px;
+  line-height: 19.1px;
+}
+.columntitle:last-child {
+  text-align: center;
+}
+
+.pagesInfoContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.showingPages {
+  font-size: 14px;
+  line-height: 19.1px;
+  opacity: 0.6;
+}
+
+.changePageButtonsContainer {
+  width: 86px;
+  height: 30px;
+  border-radius: 8px;
+  border: 0.6px solid rgba(213, 213, 213, 1);
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+.changePageButtonsContainer button:first-child {
+  border-right: 0.6px solid rgba(213, 213, 213, 1);
+}

@@ -1,0 +1,71 @@
+.navContainer {
+  width: 240px;
+  border-right: 0.6px solid rgba(224, 224, 224, 1);
+  background-color: white;
+  border-bottom:0.6px solid rgba(224, 224, 224, 1);
+  
+  transition: width 0.3s ease;
+}
+.navContainerClosed {
+  width: 84px;
+  border-right: 0.6px solid rgba(224, 224, 224, 1);
+  background-color: white;
+  border-bottom:0.6px solid rgba(224, 224, 224, 1);
+
+  transition: width 0.3s ease;
+}
+
+.mainLogo {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 27.28px;
+  color: rgba(72, 128, 255, 1);
+  text-align: center;
+  margin-top: 24px;
+
+  span {
+    color: black;
+  }
+}
+
+.navButtonHome {
+  display: flex;
+  justify-content: center;
+}
+
+.navList {
+  padding: 0;
+  margin: 0;
+}
+
+.navButtonsGroup {
+  padding: 16px 0 16px 0;
+  border-bottom: 0.6px solid rgba(224, 224, 224, 1);
+}
+.navButtonsGroup:last-child {
+  border-bottom: 0;
+}
+.navButtonsUngroup {
+  padding: 0;
+}
+
+.textPages {
+  margin: 0 0 16px 40px;
+  font-size: 12px;
+  line-height: 16.37px;
+  letter-spacing: 0.2571428120136261px;
+  text-align: left;
+  opacity: 60%;
+}
+
+.navItem {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+.navItem.active {
+  border-left: 4px solid rgba(72, 128, 255, 1);
+}
+

@@ -1,0 +1,49 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 90%;
+  text-align: center;
+  min-height: 70vh;
+}
+.form input {
+  width: 100%;
+}
+.form label,
+p {
+  text-align: start;
+}
+
+.openCalendarButton,
+.submitButton {
+  padding: 6px 15px;
+  box-sizing: border-box;
+  background-color: rgba(72, 128, 255, 1);
+  color: white;
+  border-radius: 12px;
+
+  transition: all 0.2s ease;
+}
+.openCalendarButton:hover,
+.submitButton:hover {
+  background-color: rgb(52, 92, 186);
+}
+
+.dropImage {
+  cursor: pointer;
+}
+
+.invalidWarning {
+  color: red;
+  text-align: center;
+}
+
+.calendarContainer {
+  position: absolute;
+  top: 400px;
+  left: 80px;
+  width: 70%;
+  z-index: 70;
+  border-radius: 20px;
+  box-shadow: 6px 6px 54px 0px rgba(0, 0, 0, 0.05);
+}

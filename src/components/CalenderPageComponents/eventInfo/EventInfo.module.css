@@ -1,0 +1,38 @@
+.infoContainer {
+  width: 277px;
+  height: 350px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 7px 10px 40px 0px rgba(0, 0, 0, 0.1);
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  z-index: 900;
+}
+
+.image {
+  width: 241px;
+  height: 155px;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 16px;
+  line-height: 21.82px;
+  letter-spacing: -0.05714285001158714px;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 19.1px;
+  letter-spacing: -0.049999989569187164px;
+}
+
+.date .address {
+  font-size: 14px;
+  line-height: 19.1px;
+  letter-spacing: -0.049999989569187164px;
+  color: rgba(145, 145, 145, 1);
+}
+

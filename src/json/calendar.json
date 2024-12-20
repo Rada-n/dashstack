@@ -1,0 +1,112 @@
+{
+  "calendar": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+      "title": "New Year's Day",
+      "description": "Celebrating the New Year!",
+      "date": "2024-01-01T00:00:00",
+      "dateRange": {},
+      "address": "Home",
+      "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/NewYearsEve2014-TimesSquare.jpg/1280px-NewYearsEve2014-TimesSquare.jpg"
+    },
+    {
+      "id": "f7e6d5c4-b3a2-1098-7654-3210fedcba98",
+      "title": "Grandma's Birthday",
+      "description": "Celebrating Grandma's birthday.",
+      "date": "2024-03-15T14:00:00",
+      "dateRange": {},
+      "address": "Grandma's House",
+      "imageUrl": "https://img.freepik.com/free-photo/happy-birthday-background-with-balloons_23-2148629168.jpg?w=2000"
+    },
+    {
+      "id": "98765432-10fed-cba9-8765-43210fedcba9",
+      "title": "Vacation in Spain",
+      "description": "Trip to Spain!",
+      "dateRange": {
+        "firstDate": "2024-07-10T00:00:00",
+        "lastDate": "2024-07-20T00:00:00"
+      },
+      "date": {},
+      "address": "Spain",
+      "imageUrl": "https://img.freepik.com/free-photo/beautiful-landscape-spanish-village_181624-26474.jpg?w=2000"
+    },
+    {
+      "id": "13579bdf-24680-cafe1-3579b-df24680cafe1",
+      "title": "Developer Conference",
+      "description": "Attending a developer conference.",
+      "dateRange": {
+        "firstDate": "2024-10-28T09:00:00",
+        "lastDate": "2024-10-30T17:00:00"
+      },
+      "date": {},
+      "address": "London, Conference Centre",
+      "imageUrl": "https://img.freepik.com/free-photo/conference-hall-with-audience_1262-25522.jpg?w=2000"
+    },
+    {
+      "id": "24680ac0-13579-bdf24-680ac-013579bdf24",
+      "title": "Theatre Trip",
+      "description": "Going to the theatre.",
+      "date": "2024-12-25T19:00:00",
+      "dateRange": {},
+      "address": "Shakespeare's Globe",
+      "imageUrl": "https://img.freepik.com/free-photo/interior-modern-theater-with-stage-seats_144627-21274.jpg?w=2000"
+    },
+    {
+      "id": "fedcba98-7654-3210-fedcb-a9876543210f",
+      "title": "Doctor's Appointment",
+      "description": "Check-up appointment.",
+      "date": "2024-02-10T10:00:00",
+      "dateRange": {},
+      "address": "City Medical Center",
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1676013750730-31e8e59c3392?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
+    },
+    {
+      "id": "01234567-89abcdef-01234-56789-abcdef01234",
+      "title": "Family Dinner",
+      "description": "Dinner with family.",
+      "date": "2024-04-20T18:30:00",
+      "dateRange": {},
+      "address": "Smile Dental Clinic",
+      "imageUrl": "https://img.freepik.com/premium-photo/modern-dental-clinic-office-with-equipment_1234-2814.jpg?w=2000"
+    },
+    {
+      "id": "f0123456-7890a-bcdef0-12345-67890abcdef0",
+      "title": "Hair Appointment",
+      "description": "Haircut and styling.",
+      "date": "2024-04-01T16:00:00",
+      "dateRange": {},
+      "address": "Trendy Hair Salon",
+      "imageUrl": "https://img.freepik.com/free-photo/young-woman-getting-haircut-hair-salon_144627-20469.jpg?w=2000"
+    },
+    {
+      "id": "01234567-89abc-def01-23456-7890abcdef01",
+      "title": "Weekend Trip to the Beach",
+      "description": "Relaxing weekend at the beach.",
+      "dateRange": {
+        "firstDate": "2024-09-20T00:00:00",
+        "lastDate": "2024-09-22T00:00:00"
+      },
+      "date": {},
+      "address": "Beach Resort",
+      "imageUrl": "https://img.freepik.com/free-photo/young-woman-relaxing-beach-during-summer-vacation_144627-19859.jpg?w=2000"
+    },
+    {
+      "id": "23456789-0abcdef-12345-67890-abcdef01234",
+      "title": "Cooking Class",
+      "description": "Learning new cooking techniques.",
+      "date": "2024-10-12T10:00:00",
+      "dateRange": {},
+      "address": "Culinary School",
+      "imageUrl": "https://img.freepik.com/free-photo/cooking-class-chef-teaching-students-how-cook-delicious-dishes-culinary-school-concept_74763-2035.jpg?w=2000"
+    },
+    {
+      "id": "34567890-abcdef-12345-67890-abcdef012345",
+      "title": "Museum Visit",
+      "description": "Visiting a local museum.",
+      "date": "2024-11-09T14:00:00",
+      "dateRange": {},
+      "address": "City Museum",
+      "imageUrl": "https://img.freepik.com/free-photo/interior-modern-museum-with-artworks-visitors_144627-21008.jpg?w=2000"
+    }
+  ]
+}

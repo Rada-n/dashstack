@@ -1,0 +1,14 @@
+.addButton {
+  background: rgba(67, 121, 238, 1);
+  color: white;
+  width: 147px;
+  height: 48px;
+  font-size: 14px;
+  line-height: 27px;
+  border-radius: 6px;
+
+  transition: all 0.3s ease;
+}
+.addButton:hover {
+  background-color: rgb(41, 75, 154);
+}
