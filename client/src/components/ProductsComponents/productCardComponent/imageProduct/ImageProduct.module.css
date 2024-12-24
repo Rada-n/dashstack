@@ -1,0 +1,38 @@
+.swiperContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.imageContainer {
+  height: 327px;
+}
+
+.imageContainer img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.prevButton .nexButton {
+  width: 41px;
+  height: 41px;
+  opacity: 0.5px;
+  border-radius: 100%;
+  background-color: rgba(226, 234, 248, 1);
+  position: absolute;
+}
+.prevButton {
+    left: 10px;
+}
+.nexButton {
+    right: 10px;
+}
+
+
+@media (max-width: 873px) {
+  .imageContainer {
+    max-height: 265px;
+  }
+}

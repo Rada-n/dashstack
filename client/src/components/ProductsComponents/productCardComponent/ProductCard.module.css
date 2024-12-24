@@ -1,0 +1,73 @@
+.productCard {
+  width: 361px;
+  height: 497px;
+  padding: 0 24px 24px 24px;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 54px 0px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.profuctInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productTitle {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.productPrice {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: rgba(72, 128, 255, 1);
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.productReviews {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19.1px;
+  letter-spacing: -0.16666670143604279px;
+  opacity: 40%;
+}
+
+.editButton {
+  width: 126px;
+  height: 38px;
+  border-radius: 12px;
+  opacity: 0.7px;
+  background-color: rgba(226, 234, 248, 1);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 28px;
+  
+  transition: all 0.3s ease;
+}
+.editButton:hover {
+  background-color: rgb(152, 160, 174);
+}
+
+@media (max-width: 873px) {
+  .productCard {
+    width: 85vw;
+    max-height: 450px;
+  }
+}
+

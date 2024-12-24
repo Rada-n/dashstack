@@ -1,0 +1,31 @@
+.productsCatalogSection {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.productCardsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.sortFilterContainer {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 1257px) {
+  .productCardsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 873px) {
+  .productCardsContainer {
+    grid-template-columns: repeat(1, 1fr);
+    place-items: center;
+  }
+}

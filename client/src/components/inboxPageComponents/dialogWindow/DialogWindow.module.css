@@ -1,0 +1,72 @@
+.dialogContainer {
+  width: 834px;
+  height: 840px;
+  background-color: white;
+  border: 0.3px solid rgba(185, 185, 185, 1);
+  border-radius: 14px;
+}
+
+.messageContainer {
+  padding: 0 28px 0 28px;
+  height: 696px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 40px;
+}
+
+.contectMessage {
+  text-align: center;
+}
+
+.currentUserMessage {
+  background: rgba(72, 128, 255, 1);
+  color: white;
+  border-radius: 16px 16px 0px 16px;
+  max-width: 592px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+}
+
+.otherUserMessage {
+  max-width: 592px;
+  border-radius: 16px 16px 16px 0px;
+  background: rgb(233, 233, 233);
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
+}
+
+.time {
+  margin-left: auto;
+  font-size: 12px;
+  line-height: 16.37px;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 76px;
+  padding: 20px 24px;
+  box-sizing: border-box;
+  border-top: 0.87px solid rgba(224, 224, 224, 1);
+  margin-top: 15px;
+}
+
+.inputMessage {
+  border: none;
+  height: 50px;
+  width: 75%;
+}
+.inputMessage:focus {
+  outline: none;
+}
+
+.buttonContainer {
+  margin-left: auto;
+}

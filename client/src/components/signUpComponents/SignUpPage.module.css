@@ -1,0 +1,53 @@
+.title {
+  line-height: 50px;
+  text-align: center;
+}
+
+.subtitle {
+  line-height: 20px;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.form > label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form input {
+  border: 1px solid rgba(216, 216, 216, 1);
+  background: rgba(241, 244, 249, 1);
+  border-radius: 8px;
+  padding: 0 20px;
+  height: 45px;
+}
+
+.labelPassword {
+    display: flex;
+    justify-content: space-between;
+}
+
+.error {
+    color: red;
+}
+
+.termsContainer {
+    margin-right: auto;
+}
+
+.termsLabel {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.termsLabel input {
+    outline: none;
+}

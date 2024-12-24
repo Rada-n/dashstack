@@ -1,0 +1,25 @@
+.sortProductsContainer {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.label {
+    font-size: 1rem;
+}
+
+.select {
+    border: none;
+    font-size: 15px;
+    background-color:rgba(240, 248, 255, 0);
+    outline: none;
+}
+.select option {
+    font-size: 1em;
+}
+
+@media (max-width: 873px) {
+    .sortProductsContainer {
+        flex-direction: column;
+    }
+}

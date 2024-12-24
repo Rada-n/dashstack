@@ -1,0 +1,57 @@
+.dealsSection {
+  background-color: white;
+  padding: 32px;
+  box-sizing: border-box;
+  box-shadow: 6px 6px 54px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 20px;
+  margin: 5px 0 35px 0;
+}
+
+.dealsTable {
+  width: 1074px;
+  border-collapse: collapse;
+}
+
+.dealsTableHead {
+  background-color: rgba(241, 244, 249, 1);
+  text-align: left;
+  width: 1074px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 19.1px;
+}
+
+.dealsTableBodyRow > td {
+  font-size: 14px;
+  line-height: 19.1px;
+  opacity: 80%;
+  padding: 30px 0 30px 0;
+}
+
+.dealsTableHead .dealsTableHeadRow th:first-child {
+    margin-left: 24px;
+}
+
+.productNameColumn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconProduct {
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
+}
+
+@media (max-width: 1250px) {
+  .dealsTable {
+    width: 80vw;
+  }
+}

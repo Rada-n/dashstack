@@ -1,0 +1,10 @@
+.calendarContainer {
+    display: flex;
+    gap: 20px;
+}
+
+@media (max-width: 1276px) {
+    .calendarContainer {
+        flex-direction: column-reverse;
+    }
+}
