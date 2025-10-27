@@ -4,7 +4,7 @@
   gap: 10px;
   width: 90%;
   text-align: center;
-  min-height: 70vh;
+  max-height: fit-content;
 }
 .form input {
   width: 100%;
@@ -12,6 +12,12 @@
 .form label,
 p {
   text-align: start;
+}
+
+.dateContainer{
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .openCalendarButton,
@@ -33,17 +39,32 @@ p {
   cursor: pointer;
 }
 
+.selectedFile {
+  margin: 0;
+}
+
 .invalidWarning {
   color: red;
   text-align: center;
+  margin: 0;
 }
 
 .calendarContainer {
-  position: absolute;
-  top: 400px;
-  left: 80px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 70%;
   z-index: 70;
   border-radius: 20px;
   box-shadow: 6px 6px 54px 0px rgba(0, 0, 0, 0.05);
+}
+
+
+@media (max-width: 410px) {
+  .dateContainer{
+    flex-direction: column;
+    gap: 10px;
+  }
+
 }

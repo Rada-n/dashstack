@@ -1,5 +1,5 @@
 .graphSection {
-  height: 444px;
+  /* height: 444px; */
   border-radius: 14px;
   background-color: white;
   box-shadow: 6px 6px 54px 0px rgba(0, 0, 0, 0.05);
@@ -9,7 +9,7 @@
 
 .lineChart {
   width: 100% !important;
-  max-height: 95%;
+
 }
 
 .title {
@@ -18,8 +18,24 @@
   margin: 0 0 30px 0;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 765px) {
   .graphSection {
-    height: auto;
+    overflow-x: scroll;
+    max-width: 100%;
+  }
+
+  .lineChart {
+    min-width: 400px;
+    width: 400px;
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 500px) {
+  
+  .lineChart {
+    min-width: 400px;
+    /* width: 300px; */
+    min-height: 250px;
   }
 }

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import axios from "axios";
+import api from "../api/axiosInstance";
 
 export interface Product {
     id: number
@@ -14,7 +15,7 @@ export interface Product {
 
 export const productsApi = createApi({
     reducerPath: 'productsApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001/' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/' }),
     endpoints: (builder) => ({
         getProducts: builder.query<Product[], void>({
             query: () => 'products',
@@ -24,20 +25,10 @@ export const productsApi = createApi({
 const { useGetProductsQuery } = productsApi
 
 
-
-
-
-
-
-
-
-
-
-
 export const fetchProducts = createAsyncThunk('products/fetchProducts', 
     async () => {
         try{
-            const response = await axios.get('http://localhost:3001/products')
+            const response = await api.get('/api/products')
             return response.data
         } catch (e) {
             throw e
@@ -46,12 +37,14 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts',
 )
 
 export const editProduct = createAsyncThunk('product/editProduct',
-    async (productData, { rejectWithValue }) => {
+  async ({ id, formData }: { id: number; formData: FormData }) => {
         try {
-            const response = await axios.put(`http://localhost:3003/products/${productData.id}`, productData)
+            const response = await api.post(`api/update_product/${id}?_method=PUT`, formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+            })
             return response.data;
         } catch (error: any) {
-            return rejectWithValue(error.response?.data?.message)
+            return error;
         }
     }
 )
@@ -60,7 +53,7 @@ export const deleteProduct = createAsyncThunk(
     'product/deleteProduct',
     async (productId: number, { rejectWithValue }) => {
       try {
-        await axios.delete(`http://localhost:3003/products/${productId}`);
+        await api.delete(`/api/delete_product/${productId}`);
         return productId;
       } catch (error: any) {
         return rejectWithValue(error.response?.data?.message);
@@ -69,10 +62,10 @@ export const deleteProduct = createAsyncThunk(
   );
 
   export const addProduct = createAsyncThunk(
-    'product/addProfuct',
+    'product/addProduct',
     async (productData: Product, { rejectWithValue }) => {
         try {
-            const response = await axios.post('http://localhost:3003/products/', productData)
+            const response = await api.post('/api/new_product', productData)
             return response.data
         } catch (error: any) {
             return rejectWithValue(error.message)
@@ -80,14 +73,51 @@ export const deleteProduct = createAsyncThunk(
     }
   )
 
+  export const fetchFavourites = createAsyncThunk('products/fetchFavourites', 
+    async () => {
+        try {
+            const response = await api.get('/api/favourites')
+            return response.data.data
+        } catch (e) {
+            throw e
+        }
+    }
+)
+
+export const setLike = createAsyncThunk(
+  'product/setLike',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/api/like_product/${productId}`);
+      return res.data.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
+export const unsetLike = createAsyncThunk(
+  'product/unsetLike',
+  async (productId: number, { rejectWithValue }) => {
+    try {
+      await api.post(`/api/unlike_product/${productId}`);
+      return productId;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
   interface ProductsState {
     data: Product[]
+    likedProducts: Product[]
     status: 'idle' | 'loading' | 'succeeded' | 'failed'
     error: string | null
   }
 
   const initialState: ProductsState =  {
     data: [],
+    likedProducts: [],
     status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
     error: '' as string | null
   }
@@ -111,7 +141,7 @@ const productsSlice = createSlice({
           })
 
           .addCase(addProduct.pending, (state) => {
-            state.status = 'loading';
+            state.status = 'l';
           })
           .addCase(addProduct.fulfilled, (state, action) => {
             state.data = [...state.data, action.payload]
@@ -123,14 +153,17 @@ const productsSlice = createSlice({
           })
 
           .addCase(editProduct.pending, (state) => {
-            state.status = 'loading';
+            state.status = 'l';
           })
           .addCase(editProduct.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.data = state.data.map((product) =>
-              product.id === action.payload.id ? action.payload : product
-            );
+            const updated = action.payload;
+            if (Array.isArray(state.data)) {
+              const index = state.data.findIndex(p => p.id === updated.id);
+              if (index !== -1) state.data[index] = updated;
+            }
           })
+          
           .addCase(editProduct.rejected, (state, action) => {
             state.status = 'failed';
             state.error = action.payload;
@@ -141,12 +174,34 @@ const productsSlice = createSlice({
           })
           .addCase(deleteProduct.fulfilled, (state, action) => {
             state.status = 'succeeded';
-            state.data = state.data.filter((product) => product.id !== action.payload);
+            state.data = state.data.data.filter((product) => product.id !== action.payload);
           })
           .addCase(deleteProduct.rejected, (state, action) => {
             state.status = 'failed';
             state.error = action.payload;
-          });
+          })
+
+          .addCase(fetchFavourites.pending, (state) => {
+            state.status = 'loading';
+          })
+          .addCase(fetchFavourites.fulfilled, (state, action) => {
+            state.status = 'succeeded';
+            state.likedProducts = action.payload;
+          })
+          .addCase(fetchFavourites.rejected, (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+          })
+          .addCase(setLike.fulfilled, (state, action) => {
+            const product = action.payload;
+            if (!state.likedProducts.some(p => p.id === product.id)) {
+              state.likedProducts = [...state.likedProducts, product];
+            }
+          })                            
+          .addCase(unsetLike.fulfilled, (state, action) => {
+            state.likedProducts = state.likedProducts.filter(p => p.id !== action.payload);
+          })
+          
       },
 });
 

@@ -1,40 +1,52 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useLocalStrorage } from '../hooks/useLocalStrorage';
+import api from '../api/axiosInstance';
 
 interface User {
     email: string
     password: string
-    username: string
-    terms: boolean
+    name: string
+    image: string | null
 }
 
 interface UserContextType {
-  currentUser: User;
-  setCurrentUser: (user: User) => void;
+  currentUser: User | false | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | false | null>>;
+  isLoadingUser: boolean;
+  refreshUser: () => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
-export const UserProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
-  const { storedValue: currentUserFromStorage, setValue: setCurrentUserFromStorage } = useLocalStrorage('currentUser', {});
-  const [currentUser, setCurrentUser] = useState(currentUserFromStorage);
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | false | null>(null);
+  const [isLoadingUser, setIsLoadingUser] = useState(true);
 
+  const fetchUser = async () => {
+    setIsLoadingUser(true);
+    try {
+      const res = await api.get("/api/user", { withCredentials: true });
+      setCurrentUser(res.data.data || false);
+    } catch (e) {
+      setCurrentUser(false);
+    } finally {
+      setIsLoadingUser(false);
+    }
+  };
 
   useEffect(() => {
-    setCurrentUserFromStorage(currentUser);
-  }, [currentUser, setCurrentUserFromStorage]);
+    fetchUser();
+  }, []);
 
-
-  const value: UserContextType = { currentUser, setCurrentUser };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ currentUser, setCurrentUser, isLoadingUser, refreshUser: fetchUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
-export const useUser = () => {
+export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
-  if (context === null) {
-    throw new Error('useUser must be used within a UserProvider');
-  }
+  if (!context) throw new Error("useUser must be used within UserProvider");
   return context;
 };
 

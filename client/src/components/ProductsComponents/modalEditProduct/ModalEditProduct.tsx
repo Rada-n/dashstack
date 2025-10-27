@@ -6,69 +6,142 @@ import { RootState } from "../../../store/store";
 import { useActions } from "../../../hooks/useActions";
 import Modal from "../../modal/Modal";
 
-const ModalEditProduct: React.FC<{ product: Product; onClose: () => void }> = ({
-  product,
-  onClose,
-}) => {
-  const [editedProduct, setEditedProducts] = useState({ ...product });
-  const { isLoading, error } = useSelector(
-    (state: RootState) => state.products
-  );
-  const { editProduct, deleteProduct } = useActions();
-  const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+const ModalEditProduct: React.FC<{
+  product: Product;
+  onClose: () => void;
+  onProductChanged: () => void;
+}> = ({ product, onClose, onProductChanged }) => {
+  const [editedProduct, setEditedProduct] = useState<Product>({ ...product });
+  const { editProduct, deleteProduct } = useActions();
+  const [file, setFile] = useState<File | null>(null);
+  const [errors, setErrors] = useState<Partial<Record<keyof Product, string>>>({});
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditedProducts({ ...editedProduct, [name]: value });
+    setEditedProduct({ ...editedProduct, [name]: value });
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleClose = (): void => {
-    setIsVisible(true);
-    setTimeout(() => onClose(), 500);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const validateFields = (): boolean => {
+    const newErrors: Partial<Record<keyof Product, string>> = {};
+
+    if (!editedProduct.name?.trim()) newErrors.name = "Name field is required!";
+    if (!editedProduct.price) newErrors.price = "Price field is required!";
+    if (!editedProduct.category?.trim())
+      newErrors.category = "Category field is required!";
+    if (!editedProduct.rating)
+      newErrors.rating = "Rating field is required!";
+    if (editedProduct.rating && (editedProduct.rating < 1 || editedProduct.rating > 5))
+      newErrors.rating = "Rating must be between 1 and 5!";
+    if (editedProduct.reviews == null)
+      newErrors.reviews = "Reviews field is required!";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isValid = validateFields();
+    if (!isValid) return;
+
+    setIsSaving(true);
+
+    const formData = new FormData();
+    formData.append("name", editedProduct.name);
+    formData.append("price", String(editedProduct.price));
+    formData.append("category", editedProduct.category);
+    formData.append("rating", String(editedProduct.rating));
+    formData.append("reviews", String(editedProduct.reviews));
+    if (file) {
+      formData.append("image", file);
+    }
+
+    try {
+      await editProduct({ id: editedProduct.id, formData });
+      onProductChanged();
+      onClose();
+    } catch (err) {
+      console.error("Error updating product:", err);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await deleteProduct(editedProduct.id);
+      onProductChanged();
+      onClose();
+    } catch (err) {
+      console.error("Error deleting product:", err);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
-    <Modal onClose={handleClose}>
+    <Modal onClose={onClose}>
       <h2>Edit product</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form
-        onSubmit={(e: React.ChangeEvent<HTMLInputElement>) => {
-          e.preventDefault();
-          editProduct(editedProduct);
-          handleClose();
-        }}
-        className={styles.form}
-      >
-        {["name", "price", "image", "category", "rating", "reviews"].map(
-          (fieldName: string) => (
-            <label key={fieldName}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {(["name", "price", "category", "rating", "reviews"] as (keyof Product)[]).map(
+          (fieldName) => (
+            <label key={fieldName} className={styles.label}>
               {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}:
               <input
-                type={
-                  ["price", "rating", "reviews"].includes(fieldName)
-                    ? "number"
-                    : "text"
-                }
+                type={["price", "rating", "reviews"].includes(fieldName)
+                  ? "number"
+                  : "text"}
                 name={fieldName}
-                value={editedProduct[fieldName]}
+                value={editedProduct[fieldName] ?? ""}
                 onChange={handleInputChange}
+                className={errors[fieldName] ? styles.inputError : ""}
+                disabled={isSaving || isDeleting}
               />
+              {errors[fieldName] && (
+                <span className={styles.errorText}>{errors[fieldName]}</span>
+              )}
             </label>
           )
         )}
+
+        <label>
+          Image:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={isSaving || isDeleting}
+          />
+        </label>
+
         <div className={styles.buttonsContainer}>
           <button
             type="submit"
-            disabled={isLoading}
             className={styles.submitButton}
+            disabled={isSaving || isDeleting}
           >
-            {isLoading ? "Loading..." : "Save all changes"}
+            {isSaving ? "Loading..." : "Save all changes"}
           </button>
+
           <button
-            onClick={() => deleteProduct(editedProduct.id)}
+            type="button"
+            onClick={handleDelete}
             className={styles.deleteButton}
+            disabled={isSaving || isDeleting}
           >
-            Delete
+            {isDeleting ? "Loading..." : "Delete"}
           </button>
         </div>
       </form>
@@ -77,3 +150,4 @@ const ModalEditProduct: React.FC<{ product: Product; onClose: () => void }> = ({
 };
 
 export default ModalEditProduct;
+

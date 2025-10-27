@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { axiosBaseQuery } from "../api/axiosBaseQuery";
 
 export type DateRange = { firstDate: string, lastDate: string} | null
 
@@ -9,26 +10,28 @@ export interface CalendarEvent {
     date: string | null
     dateRange: DateRange
     address: string
-    imageUrl: string
+    image_url: string
 }
 
 export const calendarApi = createApi({
     reducerPath: 'calendarApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3005/' }),
+    baseQuery: axiosBaseQuery({ baseUrl: 'http://localhost:8000/api' }),
     endpoints: (builder) => ({
-        getCalendarEvents: builder.query<CalendarEvent[], void>({
-            query: () => '/calendar'
-        }),
-        postNewEvent: builder.mutation({
-            query: (newEvent) => ({
+        getCalendarEvents: builder.query({
+            query: () => {
+              return '/calendar';
+            },
+          }),
+          postNewEvent: builder.mutation({
+            query: (formData) => {
+              return {
                 url: '/calendar',
                 method: 'POST',
-                body: JSON.stringify(newEvent),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
-                }
-            })
-        })
+                data: formData,
+              };
+            },
+          })
+          
     })
 })
 

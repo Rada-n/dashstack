@@ -1,0 +1,6 @@
+.info {
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    padding: 0 10px 0 10px;
+}

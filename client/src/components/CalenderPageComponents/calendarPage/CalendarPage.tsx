@@ -6,22 +6,25 @@ import Loading from '../../loading/Loading'
 import EventList from '../eventList/EventList'
 import styles from './CalendarPage.module.css'
 
-const CalendarPage:React.FC = () => {
-  const { error, isLoading, data: eventsData } = useGetCalendarEventsQuery()
-
-  if (isLoading) {
-    return <Loading />
-}
+const CalendarPage: React.FC = () => {
+  const { error, isLoading, data: eventsData, refetch } = useGetCalendarEventsQuery();
 
   return (
     <Layout>
       <h1>Calendar</h1>
       <section className={styles.calendarContainer}>
-        <EventList eventsData={eventsData} />
-        <Calendar eventsData={eventsData} />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <EventList eventsData={eventsData.data} refetch={refetch} />
+            <Calendar eventsData={eventsData.data} />
+          </>
+        )}
       </section>
     </Layout>
-  )
-}
+  );
+};
 
-export default CalendarPage
+export default CalendarPage;
+

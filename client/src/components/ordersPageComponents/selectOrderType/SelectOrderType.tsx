@@ -3,6 +3,7 @@ import styles from "./SelectOrderType.module.css";
 import OptionButton from "../optionButton/OptionButton";
 import { useActions } from "../../../hooks/useActions";
 import Calendar from "../calendar/Calendar";
+import { useDispatch } from "react-redux";
 
 const ordersTypes = [
   "Health & Medicine",
@@ -24,7 +25,7 @@ const ordersStatus = [
 ];
 
 const SelectOrderType: React.FC<{ title: string, onClose: () => void }> = ({ title, onClose }) => {
-    const { applyFilters } = useActions()
+    const { applyFilters } = useActions();
 
     const handleApllyFilters = () => {
         applyFilters()

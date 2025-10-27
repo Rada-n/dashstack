@@ -4,7 +4,7 @@ import styles from './SubmitButton.module.css'
 const SubmitButton:React.FC<{children: React.ReactNode; disabled?: boolean}> = ({ children, disabled }) => {
   return (
     <button type='submit' disabled={disabled} className={styles.buttonSubmit}>
-      { children }
+      { disabled ? "Loading..." : children }
     </button>
   )
 }

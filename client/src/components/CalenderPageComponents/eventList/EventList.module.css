@@ -1,10 +1,11 @@
 .asideContainer {
   width: 286px;
-  height: 900px;
+  min-height: 950px;
   border-radius: 14px;
   background: rgba(255, 255, 255, 1);
   border: 0.3px solid rgba(185, 185, 185, 1);
   position: relative;
+  padding-bottom: 60px;
 }
 
 .asideInner {
@@ -27,6 +28,7 @@
 
 @media (max-width: 1276px) {
   .asideContainer {
+    min-height: auto;
     height: auto;
     width: 900px;
     display: flex;
@@ -35,9 +37,39 @@
 .asideInner {
   max-width: 150px;
   height: auto;
+  /* padding: 10px; */
 }
 .eventsList {
   flex-direction: row;
 
 }
+}
+
+@media (max-width: 1100px) {
+  .asideContainer {
+    width:80vw;
+  }
+}
+
+
+@media (max-width: 456px) {
+  .tinyScreenLayout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .asideInner {
+    order: 1;
+  }
+
+  .eventsList {
+    order: 2;
+    margin-top: 16px;
+  }
+
+  .seeMoreButton {
+    order: 3;
+    margin-top: 16px;
+  }
 }

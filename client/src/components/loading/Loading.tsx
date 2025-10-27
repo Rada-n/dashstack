@@ -14,16 +14,18 @@ const Loading = () => {
   }, []);
 
   const sticks = Array.from({ length: numSticks }, (_, i) => (
-    <span
-      key={i}
-      className={`${styles.stick} ${
-        i === activeStickIndex ? styles.active : ""
-      }`}
-      style={{ transform: `rotate(${i * 30}deg)` }}
-    />
+      <span
+        key={i}
+        className={`${styles.stick} ${
+          i === activeStickIndex ? styles.active : ""
+        }`}
+        style={{ transform: `rotate(${i * 30}deg)` }}
+      />
   ));
 
-  return <div className={styles.clock}>{sticks}</div>;
+  return <div className={styles.layout}>
+    <div className={styles.clock}>{sticks}</div>
+  </div>;
 };
 
 export default Loading;

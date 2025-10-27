@@ -1,0 +1,10 @@
+.calendar {
+    width: 834px
+}
+
+
+@media (max-width: 1000px) {
+    .calendar {
+        max-width: 80vw;
+    }
+}

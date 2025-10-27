@@ -26,12 +26,12 @@ const ImageProduct: React.FC<{ image: string }> = ({ image }) => {
       >
         <SwiperSlide>
           <div className={styles.imageContainer}>
-            <img src={`/productImg/${image}`} />
+            <img src={`http://127.0.0.1:8000/storage/${image}`} />
           </div>
         </SwiperSlide>
         <SwiperSlide>
           <div className={styles.imageContainer}>
-            <img src={`/productImg/${image}`} />
+            <img src={`http://127.0.0.1:8000/storage/${image}`} />
           </div>
         </SwiperSlide>
       </Swiper>

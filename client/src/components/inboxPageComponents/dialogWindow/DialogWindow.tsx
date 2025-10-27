@@ -2,24 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocalStrorage } from "../../../hooks/useLocalStrorage";
 import styles from './DialogWindow.module.css'
 import AddButton from "../../addButton/AddButton";
+import { useUser } from "../../../providers/UserProvider";
 
 const DialogWindow:React.FC = () => {
     const [messages, setMessages] = useState([]);
     const [value, setValue] = useState("");
     const socket = useRef<WebSocket | null>(null);
     const [connected, setConnected] = useState(false);
-    const { storedValue: currentUser } = useLocalStrorage("currentUser", {});
-    const messageContainerRef = useRef()
+    const { currentUser, setCurrentUser } = useUser();
     const lastMessageRef = useRef()
   
     const connect = () => {
+      if (!currentUser) return;
+
       socket.current = new WebSocket("ws://localhost:5000");
   
       socket.current.onopen = () => {
         setConnected(true);
         const message = {
           event: "connection",
-          username: `${currentUser.username || "Guest"} connected!`,
+          username: `${currentUser?.name || "Guest"} connected!`,
           id: Date.now(),
         };
         socket.current.send(JSON.stringify(message));
@@ -43,7 +45,7 @@ const DialogWindow:React.FC = () => {
       if (!value) return;
   
       const message = {
-        username: currentUser.username || "Guest",
+        username: currentUser?.name || "Guest",
         message: value,
         id: Date.now(),
         time: new Date(),
@@ -76,7 +78,7 @@ const DialogWindow:React.FC = () => {
         <section className={styles.dialogContainer}>
             <div className={styles.messageContainer}>
               {messages.map((mess) => (
-                    <article key={mess.id} className={`${mess.event === 'connection' ? styles.contectMessage : mess.username === currentUser.username ? styles.currentUserMessage : styles.otherUserMessage}`}>
+                    <article key={mess.id} className={`${mess.event === 'connection' ? styles.contectMessage : mess.username === (currentUser?.name || 'Guest') ? styles.currentUserMessage : styles.otherUserMessage}`}>
                       <h4>{mess.username}</h4>
                       <span>{mess.message}</span>
                      {mess.event !== 'connection' && connected && <span className={styles.time}>{formatTime(mess.time)}</span>}

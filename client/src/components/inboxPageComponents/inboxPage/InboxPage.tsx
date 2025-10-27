@@ -4,7 +4,6 @@ import Layout from "../../layout/Layout";
 
 
 const InboxPage: React.FC = () => {
-    
 
     return (
         <Layout>

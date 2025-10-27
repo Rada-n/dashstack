@@ -2,20 +2,24 @@ import Search from "../../searchComponent/Search";
 import styles from "./Menu.module.css";
 import Notification from "../../../assets/menu/Notification.svg";
 import UKFlag from "../../../assets/menu/UKFlag.png";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useActions } from "../../../hooks/useActions";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store/store";
 import { useMediaQuery } from "react-responsive";
-import { useLocalStrorage } from "../../../hooks/useLocalStrorage";
-import { useUser } from "../../../providers/UserProvider";
 import Avatar from "../../avatar/Avatar";
+import axios from "axios";
+import { UserData } from "../../../hooks/useLocalStrorage";
+import { Link } from "react-router-dom";
+import { useUser } from "../../../providers/UserProvider";
 
 
 const Menu: React.FC = () => {
   const { setIsClickedBurger } = useActions();
   const { isClickedBurger } = useSelector((state: RootState) => state.navigate);
   const isSmallScreen = useMediaQuery({ query: '(min-width: 1420px)'})
+  const isVerySmallScreen = useMediaQuery({ query: '(min-width: 600px)'})
+  const isVeryVerySmallScreen = useMediaQuery({ query: '(min-width: 280px)'})
   const { currentUser } = useUser();
 
   return (
@@ -30,7 +34,7 @@ const Menu: React.FC = () => {
       </button>}
       <Search placeholder={"Search"} />
       <div className={styles.navUserInfo}>
-        <img src={Notification} alt="Notification" className={styles.notification} />
+        {currentUser && <img src={Notification} alt="Notification" className={styles.notification} />}
         <img src={UKFlag} alt="UK Flag" className={styles.flags}/>
         <select className={styles.selectLanguage}>
           {["English", "Spanish", "Russian"].map((language) => (
@@ -39,12 +43,10 @@ const Menu: React.FC = () => {
             </option>
           ))}
         </select>
-        <Avatar />
+        {currentUser ? isVeryVerySmallScreen ? <Avatar image={currentUser.image} /> : '' : ''}
         <div className={styles.userInfoContainer}>
-          <strong>{currentUser.username}</strong>
-          <span>Admin</span>
+          {isVerySmallScreen ?  <Link to={"/settings"} className='link'><strong>{currentUser?.name}</strong></Link> : ''}
         </div>
-        <button className={styles.showMore}></button>
       </div>
     </nav>
   );

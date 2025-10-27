@@ -16,7 +16,7 @@
   color: white;
 }
 
-.contentContainer {
+.contentContainer, .textContainer {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -26,11 +26,10 @@
   width: 30px;
   height: 30px;
   border-radius: 6px;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
-.task {
-    max-width: 500px;
-}
 
 .deleteButton {
   width: 30px;
@@ -63,4 +62,24 @@
 .deleteCheckedButton:hover {
     background: rgb(42, 71, 138);
     border: none;
+}
+
+@media (max-width: 500px) {
+  .todoContainer {
+    padding: 20px;
+    gap: 10px;
+  }
+    .task {
+      word-wrap: break-word;
+      overflow-wrap: anywhere;
+      hyphens: auto;
+      max-width: 100%;         
+      display: inline-block; 
+      line-break: anywhere; 
+    }
+
+    .contentContainer {
+      display: flex;
+      flex-direction: column;
+    }
 }

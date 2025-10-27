@@ -9,37 +9,34 @@ import styles from "./TotalSection.module.css";
 import Loading from "../../loading/Loading";
 
 const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData }) => {
-  if (!dashboardData || !dashboardData[1]) {
-    return <Loading />
-  }
 
   const amountSumDelivered = (currentStatus: string): number => {
-    const amount = dashboardData[1].reduce((acc: number, cur: Orders) => {
-      if (cur.status === currentStatus) {
-        acc += cur.amount;
+    const amount = dashboardData[1].data.reduce((acc: number, cur: Orders) => {
+      if (cur.status.toLowerCase() === currentStatus.toLowerCase()) {
+          acc += Number(cur.amount) || 0
       }
       return acc;
     }, 0);
 
-    return amount;
+    return amount
   };
 
   const amountPending = (): number => {
     let count = 0;
-    dashboardData[1].forEach((order: Orders) => {
-      if (order.status === "Pending") {
+    dashboardData[1].data.forEach((order: Orders) => {
+      if (order.status === "Processing") {
         count++;
       }
     });
     return count;
   };
 
-  const sortedOrders: Orders[] = [...dashboardData[1]].sort(
+  const sortedOrders: Orders[] = [...dashboardData[1].data].sort(
     (a: Orders, b: Orders) => new Date(a.date) - new Date(b.date)
   )
 
   const differenceUser = (): number => {
-    const sortedUsers: Users[] = [...dashboardData[0]].sort(
+    const sortedUsers: Users[] = [...dashboardData[0].data].sort(
         (a: Users, b: Users) => new Date(a.date) - new Date(b.date)
       )
     const today = sortedUsers[0].date;
@@ -60,15 +57,15 @@ const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData 
 
     const countWeekFirst = sortedOrders.filter((order: Orders) => {
         const orderDate = new Date(order.date)
-        return orderDate >= weekFirstStarts && orderDate < weekFirstEnds && order.status !== 'Cancelled'
+        return orderDate >= weekFirstStarts && orderDate < weekFirstEnds && order.status !== 'Rejected'
     }).length
 
     const countWeekSecond = sortedOrders.filter((order: Orders) => {
         const orderDate = new Date(order.date)
-        return orderDate >= weekSecondStarts && orderDate < weekSecondEnds && order.status !== 'Cancelled'
+        return orderDate >= weekSecondStarts && orderDate < weekSecondEnds && order.status !== 'Rejected'
     }).length
 
-    return +(countWeekFirst / countWeekSecond).toFixed(1)
+    return countWeekSecond === 0 ? 0 : +(countWeekFirst / countWeekSecond).toFixed(1);
   }
 
   const differenceSales = (typeOfOrder: string): number => {
@@ -89,7 +86,7 @@ const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData 
         name={"User"}
         color={"rgba(130, 128, 255, 0.3"}
         image={TotalUser}
-        amount={dashboardData[0].length}
+        amount={dashboardData[0].data.length}
         difference={differenceUser()}
         interval={'yesterday'}
       />
@@ -97,7 +94,7 @@ const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData 
         name={"Order"}
         color={"rgba(254, 197, 61, 0.3"}
         image={TotalOrder}
-        amount={dashboardData[1].length}
+        amount={dashboardData[1].data.length}
         difference={differenceOrders()}
         interval={'past week'}
       />
@@ -105,8 +102,8 @@ const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData 
         name={"Sales"}
         color={"rgba(74, 217, 145, 0.3"}
         image={TotalSales}
-        amount={`$${amountSumDelivered("Delivered")}`}
-        difference={differenceSales("Delivered")}
+        amount={`$${amountSumDelivered("Completed")}`}
+        difference={differenceSales("Completed")}
         interval={'yesterday'}
       />
       <Total
@@ -114,7 +111,7 @@ const TotalSection: React.FC<{dashboardData: DashboardData}> = ({ dashboardData 
         color={"rgba(255, 144, 102, 0.3"}
         image={TotalPending}
         amount={amountPending()}
-        difference={differenceSales("Pending")}
+        difference={differenceSales("Processing")}
         interval={'yesterday'}
       />
     </section>

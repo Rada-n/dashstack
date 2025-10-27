@@ -8,14 +8,15 @@ import { motion } from 'framer-motion';
 
 interface TodoItemProps {
     text: string
-    index: number
+    id: number
     isChecked: boolean
-    toggleCheck: (index: number) => void
+    toggleCheck: (id: number) => void
     handleDeleteCheckedTodoes: () => void
+    handleDeleteTodo: (id: number) => void
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ text, index, isChecked, toggleCheck, handleDeleteCheckedTodoes }) => {
-  const { deleteTodo } = useActions()
+const TodoItem: React.FC<TodoItemProps> = ({ text, id, isChecked, toggleCheck, handleDeleteCheckedTodoes, handleDeleteTodo }) => {
+  // const { deleteTodo } = useActions()
 
   const itemVariants = {
     hidden: { opacity: 0.5, x: 100 },
@@ -32,11 +33,11 @@ const TodoItem: React.FC<TodoItemProps> = ({ text, index, isChecked, toggleCheck
     exit="exit"
       className={`${styles.todoContainer} ${isChecked ? styles.selected : ""}`}
     >
-      <div className={styles.contentContainer}>
+      <div className={styles.textContainer}>
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={() => toggleCheck(index)}
+          onChange={() => toggleCheck(id)}
           className={styles.checkbox}
         />
         <span className={styles.task}>{text}</span>
@@ -51,7 +52,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ text, index, isChecked, toggleCheck
             <button className={styles.star}>
                 <Star />
             </button>
-            <button className={styles.deleteButton} onClick={() => deleteTodo(index)}>
+            <button className={styles.deleteButton} onClick={() => handleDeleteTodo(id)}>
               <img src={Close} />
             </button>
           </>

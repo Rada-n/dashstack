@@ -1,3 +1,7 @@
+.tableWrapper {
+  width: 100%;
+}
+
 .ordersTable {
   width: 100%;
   background-color: white;
@@ -53,4 +57,20 @@
 }
 .changePageButtonsContainer button:first-child {
   border-right: 0.6px solid rgba(213, 213, 213, 1);
+}
+
+@media (max-width: 700px) {
+  .tableWrapper {
+    overflow-x: scroll;
+  }
+
+  .ordersTable {
+    max-width: 700px;
+  }
+}
+
+@media (max-width: 520px) {
+  .ordersTable {
+    min-width: 800px;
+  }
 }

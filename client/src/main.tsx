@@ -7,11 +7,10 @@ import { store } from "./store/store.ts";
 import { UserProvider } from "./providers/UserProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+
     <Provider store={store}>
       <UserProvider>
         <App />
       </UserProvider>
     </Provider>
-  </StrictMode>
 );

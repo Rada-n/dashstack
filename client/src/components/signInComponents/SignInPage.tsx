@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SignLayout from "../signLayout/SignLayout";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignInPage.module.css";
@@ -6,7 +6,8 @@ import SubmitButton from "../submitButton/SubmitButton";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocalStrorage } from "../../hooks/useLocalStrorage";
+import axios from "axios";
+import { setCookie } from 'react-use-cookie';
 import { useUser } from "../../providers/UserProvider";
 
 const validationSchema = yup.object().shape({
@@ -27,20 +28,33 @@ const SignInPage: React.FC = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: { email: "", password: "" },
   });
-  const { storedValue: users } = useLocalStrorage("users", {});
   const navigate = useNavigate();
   const [isWrongData, setIsWrongData] = useState<boolean>(false);
-  const [rememberPassword, setRememberPassword] = useState<boolean>(false);
-  const { setCurrentUser } = useUser();
+  const [validationError, setValidationError] = useState('');
+  const { refreshUser } = useUser();
 
-  const onSubmit = (data) => {
-    const user = users[data.email];
-    if (data.password === user.password && user) {
-      setIsWrongData(false);
-      setCurrentUser(user);
-      navigate("/dashboard");
-    } else {
-      setIsWrongData(true);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:8000/api/auth", {
+        email: data.email,
+        password: data.password,
+      });
+
+      if (response.status === 200) {
+        setIsWrongData(false);
+        console.log(response.data)
+        setCookie('authToken', response.data.token);
+        localStorage.setItem("authToken", response.data.token);
+        navigate("/");
+        await refreshUser();
+      } else {
+        setIsWrongData(true);
+      }
+    } catch (e) {
+      console.error(e);
+
+      const validationErrors = e.response.data.message;
+      setValidationError(validationErrors);
     }
   };
 
@@ -84,13 +98,14 @@ const SignInPage: React.FC = () => {
           <input type="checkbox" {...register("remember")} /> Remember Password
         </div>
 
+        <SubmitButton disabled={isSubmitting}>{isSubmitting ? "Loading..." : "Sign In"}</SubmitButton>
+
         {isWrongData && (
           <p className={styles.error}>Wrong password or email!</p>
         )}
 
-        <SubmitButton disabled={isSubmitting}>Sign In</SubmitButton>
+        {validationError && <p className={styles.error}>{validationError}</p>}
 
-        {isSubmitting && <p>Отправка...</p>}
       </form>
       <p>
         Don’t have an account? <Link to="/signup">Create Account</Link>

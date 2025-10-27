@@ -38,8 +38,8 @@ const OrdersFilter: React.FC = () => {
           <img src={filter} alt="filter" />
         </li>
         <li>Filter By</li>
-        {["Date", "Order Type", "Order Status"].map((typeFilter) => (
-          <li>
+        {["Date", "Order Type", "Order Status"].map((typeFilter, i) => (
+          <li key={i}>
             {typeFilter}
             <img src={Arrow} alt="arrow" className={styles.filtersIcons} onClick={() => handleOpenSelect(typeFilter)}/>
         </li>

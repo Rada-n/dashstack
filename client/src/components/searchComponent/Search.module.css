@@ -20,3 +20,11 @@
 .searchInput:focus {
     outline: 0.6px solid rgb(62, 62, 62);
 }
+
+
+@media (max-width: 750px) {
+  .searchContainer {
+    position: relative;
+    max-width: 40%;
+  }
+}

@@ -6,9 +6,21 @@
   font-size: 14px;
   line-height: 27px;
   border-radius: 6px;
+  box-sizing: border-box;
 
   transition: all 0.3s ease;
 }
 .addButton:hover {
   background-color: rgb(41, 75, 154);
+}
+
+
+@media (max-width: 500px) {
+  .addButton {
+    max-width: 120px;
+    max-height: 60px;
+    height: auto;
+    font-size: 12px;
+    padding: 5px;
+  }
 }

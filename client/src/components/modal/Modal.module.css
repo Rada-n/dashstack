@@ -13,13 +13,14 @@
 
 .popup {
     width: 40vw;
-    height: auto;
+    /* height: fit-content; */
+    overflow-y: auto;
     padding: 20px 0 20px 0;
     box-sizing:border-box;
     background-color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border-radius: 20px;
 }
@@ -45,5 +46,23 @@
     to {
         transform: translateY(-100%);
         opacity: 0;
+    }
+}
+
+@media (max-width: 1200px) {
+    .popup {
+        width: 80vw;
+    }
+}
+
+@media (max-width: 500px) {
+    .popup {
+        max-height: 80vh;
+    }
+}
+
+@media (max-height: 1000px) {
+    .popup {
+        max-height: 80vh;
     }
 }

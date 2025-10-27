@@ -39,6 +39,18 @@
   box-sizing: border-box;
 }
 
+.username {
+    word-break: break-word;
+    text-align: center;
+}
+
+.bottomWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .buttonContainer {
     width: 50%;
     display: flex;
@@ -46,9 +58,16 @@
     align-items: center;
 }
 
+.error {
+    color: red;
+    margin: 0;
+    text-align: center;
+}
+
 .success {
     color: rgb(40, 200, 0);
     margin: 0;
+    text-align: center;
 }
 
 @media (max-width: 1000px) {
@@ -61,3 +80,13 @@
         width: 100%;
     }
 }
+
+@media (max-width: 500px) {
+
+    .formInner {
+       display: flex;
+       flex-direction: column;
+       gap: 30px;
+    }
+}
+

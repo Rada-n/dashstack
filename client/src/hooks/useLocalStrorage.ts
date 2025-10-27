@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
  export interface UserData {
-    username?: string;
+    name?: string;
     email?: string;
     password?: string;
     image?: string;

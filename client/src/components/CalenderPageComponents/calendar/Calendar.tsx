@@ -3,18 +3,10 @@ import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import EventInfo from '../eventInfo/EventInfo'
 import { CalendarEvent } from '../../../fetch/calendarApi'
+import styles from './Calendar.module.css'
 
 const Calendar:React.FC<{eventsData: CalendarEvent[]}> = ({ eventsData }) => {
-    const [hoveredEvent, setHoveredEvent] = useState('')
     const calendarRef = useRef<any>(null);
-
-    const handleEventMouseover = (info) => {
-        setHoveredEvent(info.event.title);
-    };
-
-    const handleEventMouseout = () => {
-        setHoveredEvent('');
-    };
 
 
     const formattedEvents = eventsData?.map(event => {
@@ -34,18 +26,13 @@ const Calendar:React.FC<{eventsData: CalendarEvent[]}> = ({ eventsData }) => {
     }) || [];
 
   return (
-    <div style={{width: '834px'}}>
+    <div className={styles.calendar}>
         <FullCalendar
          ref={calendarRef}
         plugins={[ dayGridPlugin ]}
         initialView="dayGridMonth"
         events={formattedEvents}
-        eventMouseover={handleEventMouseover}
-        eventMouseout={handleEventMouseout}
           />
-          {hoveredEvent && (
-        <EventInfo event={hoveredEvent} />
-        )}
     </div>
   )
 }

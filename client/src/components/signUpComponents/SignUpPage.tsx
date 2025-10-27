@@ -6,7 +6,7 @@ import SubmitButton from "../submitButton/SubmitButton";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocalStrorage } from "../../hooks/useLocalStrorage";
+import axios from "axios";
 
 const validationSchema = yup.object().shape({
   email: yup.string().email("Incorrect email").required("Email is required"),
@@ -27,21 +27,31 @@ const SignUpPage: React.FC = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: { email: "", username: "", password: "", terms: false },
   });
-  const { storedValue, setValue: setLocalStorageValue } = useLocalStrorage(
-    "users",
-    {}
-  );
-  const [sameEmail, setSameEmail] = useState<boolean>(false);
-  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    if (!Object.keys(storedValue).includes(data.email)) {
-      setLocalStorageValue({ [data.email]: data });
-      setSameEmail(false);
-      navigate("/signin");
-    } else {
-      setSameEmail(true);
-    }
+  const navigate = useNavigate();
+  const [validationErrors, setValidationErrors] = useState({});
+  const [successReg, setSuccessReg] = useState([]);
+
+  const onSubmit = async (data) => {
+      try {
+        const response = await axios.post('http://localhost:8000/api/reg', {
+          email: data.email,
+          name: data.username,
+          password: data.password,
+        })
+
+        if (response.status == 200) {
+          setSuccessReg(response.data.message)
+          navigate('/signin')
+        }
+
+      } catch (e) {
+        console.error(e);
+
+        const validationErrors = e.response.data.errors;
+        console.log(validationErrors)
+        setValidationErrors(validationErrors);
+      }
   };
 
   return (
@@ -101,13 +111,18 @@ const SignUpPage: React.FC = () => {
           )}
         </div>
 
-        {sameEmail && (
-          <p className={styles.error}>This email has been already used</p>
-        )}
+        {validationErrors.name || validationErrors.email || validationErrors.password &&
+          <>
+            <p className={styles.error}>{validationErrors?.name[0]}</p>
+            <p className={styles.error}>{validationErrors?.password[0]}</p>
+            <p className={styles.error}>{validationErrors?.email[0]}</p>
+          </>
+        }
 
-        <SubmitButton disabled={isSubmitting}>Sign Up</SubmitButton>
+        {successReg && <p>{successReg}</p>}
 
-        {isSubmitting && <p>Отправка...</p>}
+        <SubmitButton disabled={isSubmitting}>{isSubmitting ? "Loading..." : "Sign Up"}</SubmitButton>
+
       </form>
       <p>
         Already have an account? <Link to="/signin">Login</Link>

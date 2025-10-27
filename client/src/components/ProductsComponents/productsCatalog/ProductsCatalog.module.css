@@ -23,7 +23,13 @@
   }
 }
 
-@media (max-width: 873px) {
+/* @media (max-width: 875px) {
+  .productCardsContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} */
+
+@media (max-width: 875px) {
   .productCardsContainer {
     grid-template-columns: repeat(1, 1fr);
     place-items: center;

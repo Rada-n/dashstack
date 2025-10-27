@@ -21,12 +21,17 @@ const Total: React.FC<TotalProps> = ({
 }) => {
   const isPositive = difference > 0
 
+  const truncate = (amount: number, maxLength = 6) => {
+    let amountString = amount + "";
+    return amountString.length > maxLength ? amountString.slice(0, maxLength) + "..." : amountString;
+  };
+
   return (
     <div className={styles.totalInner}>
       <div className={styles.infoContainer}>
         <h6 className={styles.name}>
           Total {name} <br />
-          <strong className={styles.amount}>{amount}</strong>
+          <strong className={styles.amount}>{truncate(amount)}</strong>
         </h6>
         <div
           className={styles.totalIconContainer}
@@ -36,7 +41,7 @@ const Total: React.FC<TotalProps> = ({
         </div>
       </div>
       <div className={styles.differenceContainer}>
-          <img src={isPositive ? ArrowUp : ArrowDown} alt="" />
+          <span className={styles.arrowContainer}><img src={isPositive ? ArrowUp : ArrowDown} alt="" /></span>
           <span className={styles.difference}>
             <span
               style={{

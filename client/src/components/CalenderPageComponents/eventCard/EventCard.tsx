@@ -23,14 +23,18 @@ const EventCard: React.FC<{ event: CalendarEvent }> = ({ event }) => {
     return start && end ? `${formatDate(start)} - ${formatDate(end)}` : formatDate(event.date);
   };
 
+  const truncateText = (text: string, maxLength = 20) => {
+    return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+  };
+
   return (
     <article className={styles.cardContainer}>
       <div className={styles.cardInner}>
-        <img src={event.imageUrl} alt={event.title} className={styles.image} />
+        <img src={event.image_url} alt={event.title} className={styles.image} />
         <div className={styles.eventInfo}>
-          <h5 className={styles.title}>{event.title}</h5>
+          <h5 className={styles.title}>{truncateText(event.title)}</h5>
           <p>{date()}</p>
-          <p className={styles.address}>{event.address}</p>
+          <p className={styles.address}>{truncateText(event.address)}</p>
         </div>
       </div>
     </article>

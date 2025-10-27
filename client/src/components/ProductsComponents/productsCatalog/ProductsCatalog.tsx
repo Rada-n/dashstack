@@ -11,6 +11,8 @@ import { RootState } from "@reduxjs/toolkit/query";
 import ModalAddProduct from "../modalAddProduct/ModalAddProduct";
 import AddButton from "../../addButton/AddButton";
 import Loading from "../../loading/Loading";
+import { useUser } from "../../../providers/UserProvider";
+import ModalAuthUser from "../../modalAuthUser/ModalAuthUser";
 
 interface UseGetProductsQuery {
   data: Product[];
@@ -26,14 +28,20 @@ export const ProductsCatalog: React.FC = () => {
   const [sortDirection, setSortDirection] = useState("All");
   const { inputSearchProduct } = useSelector((state: RootState) => state.navigate);
   const dispatch = useDispatch();
-  const { data, isLoading } = useSelector((state: RootState) => state.products);
-  const [isModalButtonClicked, setIsModalButtonClicked] = useState(false)
+  const { data, status } = useSelector((state: RootState) => state.products);
+  const [isModalButtonClicked, setIsModalButtonClicked] = useState(false);
+  const { currentUser, setCurrentUser } = useUser();
+
 
   useEffect(() => {
     dispatch(fetchProducts());
-  }, [fetchProducts]);
+  }, [dispatch]);
 
-    if (isLoading) {
+  const handleProductAdded = () => {
+    dispatch(fetchProducts());
+  };
+
+    if (status === 'loading') {
       return <Loading />
     }
   //   if (isError) {
@@ -44,32 +52,34 @@ export const ProductsCatalog: React.FC = () => {
     setIsModalButtonClicked(false);
 };
 
-  const filtredProducts: Product[] = data.filter((product: Product) => {
+  const filtredProducts: Product[] = data?.data?.filter((product: Product) => {
     if (filter === "All") return true;
     return product.category === filter;
-  });
+  }) || [];
 
-  const sortedProducts: Product[] = [...filtredProducts].sort(
-    (a: Product, b: Product) => {
-      if (sortCategory === "Price" && sortDirection !== "All") {
-        return sortDirection === "Increase"
-          ? a.price - b.price
-          : b.price - a.price;
-      }
-      if (sortCategory === "Rating" && sortDirection !== "All") {
-        return sortDirection === "Increase"
-          ? a.rating - b.rating
-          : b.rating - a.rating;
-      }
-      return 0;
-    }
-  );
 
-  const searchFiltredAndSortedProducts = sortedProducts.filter((product: Product) => {
-    if (inputSearchProduct && inputSearchProduct.trim()) {
-      return product.name.toLowerCase().includes(inputSearchProduct.toLowerCase());
-    } else return true
-  });
+    const sortedProducts: Product[] = [...filtredProducts]?.sort(
+      (a: Product, b: Product) => {
+        if (sortCategory === "Price" && sortDirection !== "All") {
+          return sortDirection === "Increase"
+            ? a.price - b.price
+            : b.price - a.price;
+        }
+        if (sortCategory === "Rating" && sortDirection !== "All") {
+          return sortDirection === "Increase"
+            ? a.rating - b.rating
+            : b.rating - a.rating;
+        }
+        return 0;
+      }
+    ) || [];
+  
+    const searchFiltredAndSortedProducts = sortedProducts?.filter((product: Product) => {
+      if (inputSearchProduct && inputSearchProduct.trim()) {
+        return product.name.toLowerCase().includes(inputSearchProduct.toLowerCase());
+      } else return true
+    }) || [];
+
 
   return (
     <section className={styles.productsCatalogSection}>
@@ -83,12 +93,14 @@ export const ProductsCatalog: React.FC = () => {
             setSortDirection={setSortDirection}
           />
          <AddButton add={setIsModalButtonClicked}>Add New Product</AddButton>
-         {isModalButtonClicked && <ModalAddProduct onClose={closeModal} />}
+         {currentUser ?
+         isModalButtonClicked && <ModalAddProduct onClose={closeModal} onProductAdded={handleProductAdded} />
+         : isModalButtonClicked && <ModalAuthUser onClose={closeModal} />}
       </div>
       <div className={styles.productCardsContainer}>
-        {searchFiltredAndSortedProducts.map(
+        {searchFiltredAndSortedProducts?.map(
           (product: Product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} onProductChanged={handleProductAdded}  />
           )
         )}
       </div>

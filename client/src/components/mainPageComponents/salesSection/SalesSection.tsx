@@ -14,6 +14,7 @@ import {
 } from "chart.js";
 import styles from "./SalesSection.module.css";
 import { Sales } from "../../../interfaces/dashboardData";
+import { useMediaQuery } from "react-responsive";
 
 ChartJS.register(
   CategoryScale,
@@ -29,12 +30,16 @@ ChartJS.register(
 const SalesSection: React.FC<{ dashboardData: DashboardData }> = ({
   dashboardData,
 }) => {
+  const isSmallScreen = useMediaQuery({ query: '(min-width: 800px)'});
+  
   if (!dashboardData || !dashboardData[2]) {
     return
   }
 
-  const labels: string[] = dashboardData[2].map((sale: Sales) => sale.date);
-  const salesData: number[] = dashboardData[2].map((sale: Sales) => sale.total);
+
+
+  const labels: string[] = dashboardData[2].data.map((sale: Sales) => sale.date);
+  const salesData: number[] = dashboardData[2].data.map((sale: Sales) => sale.total);
   const chartData = {
     labels: labels,
     datasets: [
@@ -49,7 +54,7 @@ const SalesSection: React.FC<{ dashboardData: DashboardData }> = ({
   };
 
   const options = {
-    responsive: true,
+    responsive: isSmallScreen ? true : false,
     plugins: {
       legend: {
         display: false,

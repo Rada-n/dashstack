@@ -41,11 +41,26 @@ const ordersSlice = createSlice({
   name: "orders",
   initialState,
   reducers: {
-    setDate (state, action) {
-        const { from, to } = action.payload
-        state.date.from = from
-            state.date.to = to
+    setDate(state, action) {
+      const { from, to } = action.payload;
+      state.date.from = from;
+      state.date.to = to;
     },
+
+    toggleOptionType: (state, action) => {
+      const val = action.payload;
+      state.ordersType = state.ordersType.includes(val)
+        ? state.ordersType.filter(x => x !== val)
+        : [...state.ordersType, val];
+    },
+
+    toggleOptionStatus: (state, action) => {
+      const val = action.payload;
+      state.ordersStatus = state.ordersStatus.includes(val)
+        ? state.ordersStatus.filter(x => x !== val)
+        : [...state.ordersStatus, val];
+    },    
+
     setOptionsType(state, action) {
       const index = state.ordersType.indexOf(action.payload);
       if (index === -1) {
@@ -54,6 +69,7 @@ const ordersSlice = createSlice({
         state.ordersType.splice(index, 1);
       }
     },
+
     setOptionsStatus(state, action) {
       const index = state.ordersStatus.indexOf(action.payload);
       if (index === -1) {
@@ -62,25 +78,34 @@ const ordersSlice = createSlice({
         state.ordersStatus.splice(index, 1);
       }
     },
+
     setTotalOrders(state, action) {
-      state.totalOrders = action.payload;
+      const { data, meta } = action.payload;
+      state.totalOrders = data;
+      state.meta = meta || null;
+      state.filtredOrders = data; 
     },
+
     applyFilters(state) {
       const { date, totalOrders, ordersType, ordersStatus } = state;
+      if (!Array.isArray(totalOrders)) return;
+
       let filteredOrders = [...totalOrders];
 
       if (date.from && date.to) {
         const firstDay = new Date(date.from);
         const lastDay = new Date(date.to);
-        filteredOrders = filteredOrders.filter(order => {
+        filteredOrders = filteredOrders.filter((order) => {
           const orderDate = new Date(order.date);
           return orderDate <= lastDay && orderDate >= firstDay;
         });
       } else if (date.from) {
-        filteredOrders = filteredOrders.filter(order => {
+        filteredOrders = filteredOrders.filter((order) => {
           const orderDate = new Date(order.date);
-          return orderDate.toDateString() === new Date(date.from).toDateString();
-        })
+          return (
+            orderDate.toDateString() === new Date(date.from).toDateString()
+          );
+        });
       }
 
       if (ordersType.length > 0) {
@@ -88,51 +113,44 @@ const ordersSlice = createSlice({
         ordersType.forEach((type: string) => {
           const subcategories = ordersTypeSubcategories[type];
           if (subcategories) {
-            subcategories.forEach((subcategory: string) => selectedSubcategories.add(subcategory));
+            subcategories.forEach((subcategory: string) =>
+              selectedSubcategories.add(subcategory)
+            );
           }
         });
-        filteredOrders = filteredOrders.filter(order =>
+        filteredOrders = filteredOrders.filter((order) =>
           selectedSubcategories.has(order.type)
         );
       }
 
       if (ordersStatus.length > 0) {
-        filteredOrders = filteredOrders.filter(order =>
+        filteredOrders = filteredOrders.filter((order) =>
           ordersStatus.includes(order.status)
         );
       }
 
-      if (ordersType.length === 0 && ordersStatus.length === 0 && !date.from && !date.to) {
+      if (
+        ordersType.length === 0 &&
+        ordersStatus.length === 0 &&
+        !date.from &&
+        !date.to
+      ) {
         filteredOrders = totalOrders;
       }
 
       state.filtredOrders = filteredOrders;
     },
+
     resetAllFilters(state) {
       state.filtredOrders = state.totalOrders;
       state.ordersType = [];
       state.ordersStatus = [];
-      state.date.from = '';
-      state.date.to = '';
+      state.date.from = "";
+      state.date.to = "";
     },
   },
-  extraReducers: (builder) => {
-    builder.
-      addMatcher(ordersApi.endpoints.getTotalOrders.matchPending, (state) => {
-        state.loading = true
-        state.error = ''
-      })
-      .addMatcher(ordersApi.endpoints.getTotalOrders.matchFulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.totalOrders = payload;
-        state.filtredOrders = payload;
-      })
-      .addMatcher(ordersApi.endpoints.getTotalOrders.matchRejected, (state, { error }) => {
-        state.loading = false;
-        state.error = error?.message || 'Ошибка при загрузке постов';
-      });
-  },
 });
+
 
 export const ordersActions = ordersSlice.actions;
 export const ordersReducer = ordersSlice.reducer;

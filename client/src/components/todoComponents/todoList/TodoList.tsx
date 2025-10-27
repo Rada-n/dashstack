@@ -1,15 +1,28 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { AppState } from "../../../store/store";
+import React, { useEffect, useState } from "react";
 import TodoItem from "../todoItem/TodoItem";
 import styles from "./TodoList.module.css";
-import { useActions } from "../../../hooks/useActions";
 import { AnimatePresence } from "framer-motion";
+import axios from "axios";
+import Loading from "../../loading/Loading";
+import { Todo } from "../todoPage/TodoPage";
+import api from "../../../api/axiosInstance";
 
-const TodoList: React.FC = () => {
-  const { todoes } = useSelector((state: AppState) => state.todo);
+interface TodoProps {
+  fetchTodoes: () => void;
+  todoes: Todo[];
+  isLoading: boolean;
+  setTodoes: () => Todo[];
+}
+
+
+const TodoList: React.FC<TodoProps> = ({fetchTodoes, todoes, isLoading, setTodoes}) => {
+
   const [checkedItems, setCheckedItems] = useState<Set<number>>(new Set());
-  const { deleteCheckedtodoes } = useActions();
+
+  useEffect(() => {
+    fetchTodoes();
+  }, []);
+  
 
   const toggleCheck = (index: number): void => {
     setCheckedItems((prev) => {
@@ -23,21 +36,50 @@ const TodoList: React.FC = () => {
     });
   };
 
-  const handleDeleteCheckedTodoes = (): void => {
-    deleteCheckedtodoes(Array.from(checkedItems));
-    setCheckedItems(new Set());
+  const handleDeleteCheckedTodoes = async (): Promise<void> => {
+    try {
+      const idsToDelete = Array.from(checkedItems);
+      await Promise.all(idsToDelete.map(async (id) => {
+        await api.delete(`/api/delete_todoes/${id}`);
+      }));
+      setTodoes(prevTodoes => prevTodoes.filter(todo => !idsToDelete.includes(todo.id)));
+      setCheckedItems(new Set());
+    } catch (e) {
+      console.log(e)
+    }
   };
+
+  const handleDeleteTodo = async (id: number): Promise<void> => {
+    try {
+      await api.delete(`/api/delete_todoes/${id}`);
+
+      setTodoes(prevTodoes => prevTodoes.filter(todo => todo.id !== id));
+
+      setCheckedItems(prevCheckedItems => {
+        const newCheckedItems = new Set(prevCheckedItems);
+        newCheckedItems.delete(id);
+        return newCheckedItems;
+      });
+    } catch (e) {
+      console.error("Ошибка при удалении задачи:", e);
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <section className={styles.todoListContainer}>
       <AnimatePresence>
-        {todoes.map((todo: string, index: number) => (
+        {todoes && todoes.map((todo: Todo) => (
           <TodoItem
-            key={index}
-            text={todo}
-            index={index}
-            isChecked={checkedItems.has(index)}
+            key={todo.id}
+            text={todo.body}
+            id={todo.id}
+            isChecked={checkedItems.has(todo.id)}
             toggleCheck={toggleCheck}
+            handleDeleteTodo={handleDeleteTodo}
             handleDeleteCheckedTodoes={handleDeleteCheckedTodoes}
           />
         ))}

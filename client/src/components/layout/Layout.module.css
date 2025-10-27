@@ -15,11 +15,33 @@
     .mainWrapper {
         max-width: 1138px;
         width: 100%;
+        padding: 30px;
     }
 }
 
 @media (max-width: 865px) {
     .mainWrapper {
-        padding: 20px 10px 20px 10px;
+        padding: 20px;
     }
+}
+
+@media (max-width: 750px) {
+    .mainWrapper {
+        padding: 10px 15px 10px 10px;
+        width: 80%;
+        right: 0;       
+    }
+
+    .mainContainer {
+        display: flex;
+        justify-content: right;
+    }
+    
+}
+
+@media (max-width: 400px) {
+    .mainWrapper {
+        padding: 10px 15px 10px 60px;     
+    }
+    
 }

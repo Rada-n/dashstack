@@ -8,46 +8,57 @@ import SuccessModal from "../../successModal/SuccessModal";
 import { useActions } from "../../../hooks/useActions";
 import Modal from "../../modal/Modal";
 
-const validationShema = Yup.object<Product>().shape({
+const validationShema = Yup.object().shape({
   name: Yup.string().required("Name field is required!"),
   price: Yup.number()
     .required("Price field is required!")
     .positive("Price must be positive!"),
-  image: Yup.string().url("URL is incorrect!"),
-  category: Yup.string().nullable(),
-  rating: Yup.number().min(1).max(5).integer().nullable(),
-  reviews: Yup.number().min(0).integer().nullable(),
+  category: Yup.string().required("Category is required!"),
+  rating: Yup.number().min(1).max(5).integer().required("Rating is required!"),
+  reviews: Yup.number().min(0).integer().required("Reviews is required!"),
+  image: Yup.mixed().nullable(),
 });
 
-const ModalAddProduct: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [productAdded, setProductAdded] = useState<Product | null>(null);
+const ModalAddProduct: React.FC<{ onClose: () => void, onProductAdded: () => void }> = ({ onClose, onProductAdded }) => {
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [productAdded, setProductAdded] = useState<any>(null);
   const { addProduct } = useActions();
 
-  const handleSubmit = (
-    values: Product,
-    { setSubmitting, setErrors }: FormikHelpers<Product>
+  const handleSubmit = async (
+    values: any,
+    { setSubmitting, setErrors }: FormikHelpers<any>
   ) => {
     setIsSubmit(true);
     setProductAdded(values);
-    setSubmitting(true);
-    addProduct(values)
-      .then(() => {})
-      .catch((error: any) => {
-        setErrors({ general: error.message });
-      })
-      .finally(() => {
-        setSubmitting(false);
-      });
+
+    const formData = new FormData();
+    formData.append("name", values.name);
+    formData.append("price", values.price);
+    formData.append("category", values.category);
+    formData.append("rating", values.rating);
+    formData.append("reviews", values.reviews);
+
+    if (values.image) {
+      formData.append("image", values.image);
+    }
+
+    try {
+      await addProduct(formData);
+    } catch (error: any) {
+      setErrors({ general: error.message });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
     <>
       {isSubmit && (
         <SuccessModal
-          text={`${productAdded?.name} was successfully add!`}
-          onClose={(): void => {
+          text={`${productAdded?.name} was successfully added!`}
+          onClose={() => {
             setIsSubmit(false);
+            onProductAdded();
             onClose();
             setProductAdded(null);
           }}
@@ -59,42 +70,78 @@ const ModalAddProduct: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           initialValues={{
             name: "",
             price: 0,
-            image: "",
             category: "",
-            rating: 0,
+            rating: 1,
             reviews: 0,
+            image: null,
           }}
           validationSchema={validationShema}
           onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
+          {({ setFieldValue, isSubmitting }) => (
             <Form className={styles.formInner}>
-              {["name", "price", "image", "category", "rating", "reviews"].map(
-                (fieldName) => (
-                  <div key={fieldName}>
-                    <label htmlFor={fieldName}>
-                      {fieldName.charAt(0).toUpperCase() + fieldName.slice(1)}
-                    </label>
-                    <Field
-                      type={
-                        ["price", "rating", "reviews"].includes(fieldName)
-                          ? "number"
-                          : "text"
-                      }
-                      id={fieldName}
-                      name={fieldName}
-                      className={styles.input}
-                    />
-                    <ErrorMessage name={fieldName} component="div" />
-                  </div>
-                )
-              )}
+              <div>
+                <label>Name</label>
+                <Field type="text" name="name" className={styles.input} />
+                <div className={styles.error}>
+                  <ErrorMessage name="name" component="div" />
+                </div>
+              </div>
+
+              <div>
+                <label>Price</label>
+                <Field type="number" name="price" className={styles.input} />
+                <div className={styles.error}>
+                  <ErrorMessage name="price" component="div"  />
+                </div>
+              </div>
+
+              <div>
+                <label>Category</label>
+                <Field type="text" name="category" className={styles.input} />
+                <div className={styles.error}>
+                  <ErrorMessage name="category" component="div" />
+                </div>
+              </div>
+
+              <div>
+                <label>Rating</label>
+                <Field type="number" name="rating" className={styles.input} />
+                <div className={styles.error}>
+                  <ErrorMessage name="rating" component="div" />
+                </div>
+              </div>
+
+              <div>
+                <label>Reviews</label>
+                <Field type="number" name="reviews" className={styles.input} />
+                <div className={styles.error}>
+                  <ErrorMessage name="reviews" component="div" />
+                </div>
+              </div>
+
+              <div className={styles.imageContainer}>
+                <label>Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    if (event.currentTarget.files) {
+                      setFieldValue("image", event.currentTarget.files[0]);
+                    }
+                  }}
+                />
+                <div className={styles.error}>
+                  <ErrorMessage name="image" component="div" />
+                </div>
+              </div>
+
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className={styles.addProductButton}
               >
-                Add product!
+                {isSubmitting ? "Loading..." : "Add product!"}
               </button>
             </Form>
           )}
@@ -105,3 +152,4 @@ const ModalAddProduct: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 };
 
 export default ModalAddProduct;
+

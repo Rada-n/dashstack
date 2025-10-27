@@ -6,25 +6,26 @@ import { AppState } from '../../../store/store';
 
 const OptionButton: React.FC<{ option: string; title: string }> = ({ option, title }) => {
     const { ordersType, ordersStatus } = useSelector((state: AppState) => state.orders);
-    const { setOptionsType, setOptionsStatus } = useActions()
-    
+    const { toggleOptionType, toggleOptionStatus } = useActions();
+  
     const isSelected = title === 'Type' ? ordersType.includes(option) : ordersStatus.includes(option);
-    
+  
     const handleClickSelectOption = () => {
-        if (title === 'Type') {
-            setOptionsType(option);
-        } else {
-            setOptionsStatus(option);
-        }
+      if (title === 'Type') {
+        toggleOptionType(option);
+      } else {
+        toggleOptionStatus(option);
+      }
     };
-
+  
     return (
-        <button 
-            onClick={handleClickSelectOption} 
-            className={`${styles.button} ${isSelected ? styles.clicked : styles.inactive}`}
-        >
-            {option}
-        </button>
+      <button
+        onClick={handleClickSelectOption}
+        className={`${styles.button} ${isSelected ? styles.clicked : styles.inactive}`}
+      >
+        {option}
+      </button>
     );
-};
+  };
+  
 export default OptionButton

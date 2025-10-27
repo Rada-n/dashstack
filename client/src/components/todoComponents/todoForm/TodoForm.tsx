@@ -1,34 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../../modal/Modal";
 import AddButton from "../../addButton/AddButton";
-import { useActions } from "../../../hooks/useActions";
 import styles from './TodoForm.module.css'
+import api from "../../../api/axiosInstance";
 
-const TodoForm: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+
+const TodoForm: React.FC<{ onClose: () => void; fetchTodoes: () => void }> = ({ onClose, fetchTodoes }) => {
   const [newTask, setNewTask] = useState<string>("");
-  const { addTodo } = useActions();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-  const handleAddNewTask = () => {
-    addTodo(newTask);
-    onClose();
+  const handleAddNewTask = async () => {
+    if (!newTask.trim() || isLoading) return;
+
+    try {
+      setIsLoading(true);
+      await api.post("/api/new_todo", { body: newTask });
+      await fetchTodoes();
+      onClose();
+    } catch (err) {
+      setError(err.response?.data?.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Modal onClose={onClose}>
       <div className={styles.modalInner}>
         <h4>Write your new task</h4>
-        <input
-          type="textarea"
+        <textarea
           className={styles.textInput}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setNewTask(e.target.value)}
-            onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.key === 'Enter') {
-                  handleAddNewTask()
-                }
-              }}
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleAddNewTask();
+            }
+          }}
         />
-        <AddButton add={handleAddNewTask}>Add!</AddButton>
+        {error && <p className={styles.error}>{error}</p>}
+        <AddButton add={handleAddNewTask} disabled={isLoading}>
+          {isLoading ? "Loading..." : "Add!"}
+        </AddButton>
       </div>
     </Modal>
   );

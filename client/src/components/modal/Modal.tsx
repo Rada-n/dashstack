@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Modal.module.css";
 
 interface ModalProps {
@@ -13,6 +13,15 @@ const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
     setIsVisible(true);
     setTimeout((): void => onClose(), 400);
   };
+
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
 
   return (
     <section className={styles.overlay} onClick={(): void => handleClose()}>

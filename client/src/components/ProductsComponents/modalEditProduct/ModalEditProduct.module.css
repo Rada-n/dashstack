@@ -33,6 +33,13 @@
     transform: translateY(0);
     animation: slideOut 0.5s forwards;
 }
+  
+  .errorText {
+    color: #e63946;
+    margin-top: 4px;
+    display: block;
+  }
+  
 
 @keyframes slideIn {
     to {
@@ -81,4 +88,11 @@
     width: 40%;
     border-radius: 12px;
     transition: all 0.3s ease;
+}
+
+@media (max-width: 441px) {
+    .submitButton {
+        width: auto;
+        min-width: 90px;
+    }
 }

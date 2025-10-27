@@ -9,6 +9,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .infoContainer {
@@ -42,7 +43,7 @@
 
 .differenceContainer {
     display: flex;
-    gap: 5px;
+    /* gap: 5px; */
 }
 
 .interval {
@@ -61,10 +62,50 @@
   }
 }
 
-
-@media (max-width: 620px) {
+@media (max-width: 630px) {
   .totalInner {
-    max-width: 40vw;
-    max-height: auto;
+    width: 350px;
+  height: 161px;
   }
-} 
+  
+}
+
+
+@media (max-width: 300px) {
+  
+  .totalInner {
+    width: 150px;
+    height: 161px;
+    justify-content: center;
+  }
+  
+  .name {
+    font-size: clamp(12px, 2vw, 14px);
+  }
+  
+  .amount {
+    font-size: 2em;
+  }
+  
+  .totalIconContainer {
+    width: 30px;
+  }
+
+  .arrowContainer {
+    height: 2vh;
+  }
+
+  .interval {
+    line-height: 2x;
+  }
+  
+
+  /* .differenceContainer {
+    height: 1.5vh;
+  }
+   */
+  .difference {
+    font-size: 15px;
+  }
+  
+}
